@@ -1,10 +1,23 @@
-.input-section{
-   
+@media (min-width: 600px) {
+  .input-section {
     border: 0.5rem outset #c8e1ff;
-    line-height: 30px !important;
-    border-radius: 6px;
-    font:  1rem sans-serif;
-    margin: 2rem;
-    padding: 1rem;
-    outline-offset: 0.5rem;
+  }
+}
+.input-section {
+  line-height: 30px !important;
+  border-radius: 6px;
+  font: 0.9rem sans-serif;
+  margin: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  outline-offset: 0.5rem;
+  overflow: auto;
+}
+
+@media (min-width: 800px) {
+  .input-section div {
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+  }
 }

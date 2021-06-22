@@ -27,7 +27,7 @@ function Popup() {
         name={popupName}
         style={{
           overlay: {
-            backgroundColor: "#EFF3FB",
+            backgroundColor: "#ffffff",
           },
           content: {
             position: "absolute",
@@ -39,8 +39,11 @@ function Popup() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            background: "#f7f9fc",
+            boxShadow: "5px 5px 4px  6px #c8e1ff",
             alignItems: "center",
-            height: "50vh",
+            height: "60%",
+            width: "50%",
           },
         }}
       >
