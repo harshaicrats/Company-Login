@@ -48,7 +48,7 @@ export default function Login() {
       if (!values.personPhoneNumber) {
         errors.personPhoneNumber = "Phone number is required";
       } else if (!/^[0-9]*$/.test(values.personPhoneNumber)) {
-        errors.personPhoneNumber = "Account number should only contain numbers";
+        errors.personPhoneNumber = "Phone number should only contain numbers";
       }
       if (!values.personName) {
         errors.personName = " PersonName is required";
