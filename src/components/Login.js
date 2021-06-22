@@ -80,13 +80,16 @@ export default function Login() {
           iCrats Technologies
         </Typography>
 
-        <form className={classes.form} onSubmit={formik.handleSubmit}>
+        <form
+          className={classes.form}
+          autocomplete="off"
+          onSubmit={formik.handleSubmit}
+        >
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            autocomplete="off"
             name="companyName"
             value={formik.values.companyName}
             onChange={formik.handleChange}
@@ -98,7 +101,6 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
-            autocomplete="off"
             name="personName"
             value={formik.values.personName}
             onChange={formik.handleChange}
@@ -110,7 +112,6 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
-            autocomplete="off"
             name="personPhoneNumber"
             value={formik.values.personPhoneNumber}
             onChange={formik.handleChange}
@@ -122,7 +123,6 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
-            autocomplete="off"
             name="personEmailId"
             value={formik.values.personEmailId}
             onChange={formik.handleChange}
