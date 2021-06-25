@@ -1,33 +1,20 @@
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Link from '@material-ui/core/Link';
+import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
+import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useFormik } from "formik";
-import { useSelector } from "react-redux";
+import { register } from "../features/loginSlice";
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import ContactPhoneRoundedIcon from '@material-ui/icons/ContactPhoneRounded';
+import "./Register.css";
 import { useHistory } from "react-router-dom";
-import'./Login.css';
 
-
-function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -47,20 +34,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const history = useHistory();
-  const companyData = useSelector((state) => state.register.companyDetails);
-  console.log(companyData);
-
- const formik = useFormik({
+  const dispatch = useDispatch();
+  const formik = useFormik({
     initialValues: {
-     
+      companyName: "",
       personName: "",
       personPhoneNumber: "",
-      
+      personEmailId: "",
     },
 
     validate: (values) => {
       const errors = {};
-     
+      if (!values.companyName) {
+        errors.companyName = "Company Name is required";
+      }
       if (!values.personPhoneNumber) {
         errors.personPhoneNumber = "Phone number is required";
       } else if (!/^[0-9]*$/.test(values.personPhoneNumber)) {
@@ -69,18 +56,24 @@ export default function Register() {
       if (!values.personName) {
         errors.personName = " PersonName is required";
       }
-     
+      if (!values.personEmailId) {
+        errors.personEmailId = " PersonEmail Id is required";
+      }else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.personEmailId)){
+        errors.personEmailId = "Invalid Email format";
+      }
       return errors;
     },
     onSubmit: (values) => {
-  const newArray=companyData.filter((value)=>
-      (value.personName==values.personName)&&(value.personPhoneNumber==values.personPhoneNumber))
-  console.log(newArray.length);
-    
-    if(newArray.length!=0){
-        history.push("/dashboard");
-    }
-  }
+      dispatch(
+        register({
+          companyName: values.companyName,
+          personName: values.personName,
+          personPhoneNumber: values.personPhoneNumber,
+          personEmailId: values.personEmailId,
+        })
+      );
+      history.push("/login");
+    },
   });
 
   return (
@@ -88,19 +81,28 @@ export default function Register() {
       <CssBaseline />
       <div className={classes.paper}>
       <Avatar className={classes.avatar}>
-          <LockOutlinedIcon className="LockOutlinedIcon"/>
-      
+          <ContactPhoneRoundedIcon className="ContactPhoneRoundedIcon " />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h4" className="heading">
+          iCrats Technologies
         </Typography>
-       
+
         <form
           className={classes.form}
           autoComplete="off"
           onSubmit={formik.handleSubmit}
         >
-          
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="companyName"
+            value={formik.values.companyName}
+            onChange={formik.handleChange}
+            label="Company Name"
+          />
+          <div className="errors">{formik.errors.companyName}</div>
           <TextField
             variant="outlined"
             margin="normal"
@@ -123,7 +125,17 @@ export default function Register() {
             label="Contact Person Phone Number"
           />
           <div className="errors">{formik.errors.personPhoneNumber}</div>
-         
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="personEmailId"
+            value={formik.values.personEmailId}
+            onChange={formik.handleChange}
+            label="Contact Person Email Id"
+          />
+          <div className="errors">{formik.errors.personEmailId}</div>
 
           <Button
             type="submit"
@@ -132,12 +144,12 @@ export default function Register() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Submit
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/" variant="body2">
-              {"Don't have an account? Sign Up"}
+              <Link href="/login" variant="body2">
+              {"Already have an account? Sign In"}
               </Link>
             </Grid>
      </Grid>

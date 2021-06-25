@@ -8,9 +8,7 @@ Modal.setAppElement("#root");
 function Popup() {
   const popupName = useSelector((state) => state.popup.modalName);
   const trigger = useSelector((state) => state.popup.setPopup);
-  console.log(trigger);
-  const companyLists = useSelector((state) => state.login.companyDetails);
-  console.log(companyLists);
+  const companyLists = useSelector((state) => state.register.companyDetails);
   const dispatch = useDispatch();
   const hidePopup = () => {
     dispatch(popup());
@@ -48,8 +46,8 @@ function Popup() {
         }}
       >
         <div className="input-section">
-          {newArray?.map((e, index) => (
-            <div key={e.index}>
+          {newArray?.map((e) => (
+            <div key={e}>
               <div>
                 Company Name:&ensp;<b>{e.companyName}</b>
               </div>

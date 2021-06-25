@@ -3,7 +3,9 @@ import loginSlice from "../features/loginSlice";
 
 export const store = configureStore({
   reducer: {
-    login: loginSlice,
-    popup:loginSlice
+    register: loginSlice,
+    popup:loginSlice,
+    deletename:loginSlice,
+    companyname:loginSlice
   },
 });
