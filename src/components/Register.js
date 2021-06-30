@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import dataService from "../services/dataService";
 import Button from "@material-ui/core/Button";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -9,9 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useFormik } from "formik";
 import { register } from "../features/loginSlice";
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import ContactPhoneRoundedIcon from '@material-ui/icons/ContactPhoneRounded';
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import ContactPhoneRoundedIcon from "@material-ui/icons/ContactPhoneRounded";
 import "./Register.css";
 import { useHistory } from "react-router-dom";
 
@@ -58,21 +59,34 @@ export default function Register() {
       }
       if (!values.personEmailId) {
         errors.personEmailId = " PersonEmail Id is required";
-      }else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.personEmailId)){
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.personEmailId)) {
         errors.personEmailId = "Invalid Email format";
       }
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(
-        register({
+      // dispatch(
+      //   register({
+      //     companyName: values.companyName,
+      //     personName: values.personName,
+      //     personPhoneNumber: values.personPhoneNumber,
+      //     personEmailId: values.personEmailId,
+      //   })
+      // );
+      // history.push("/login");
+      dataService
+        .register({
           companyName: values.companyName,
           personName: values.personName,
           personPhoneNumber: values.personPhoneNumber,
           personEmailId: values.personEmailId,
         })
-      );
-      history.push("/login");
+        .then((data) => {
+          history.push("/login");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
   });
 
@@ -80,7 +94,7 @@ export default function Register() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-      <Avatar className={classes.avatar}>
+        <Avatar className={classes.avatar}>
           <ContactPhoneRoundedIcon className="ContactPhoneRoundedIcon " />
         </Avatar>
         <Typography component="h1" variant="h4" className="heading">
@@ -149,10 +163,10 @@ export default function Register() {
           <Grid container>
             <Grid item xs>
               <Link href="/login" variant="body2">
-              {"Already have an account? Sign In"}
+                {"Already have an account? Sign In"}
               </Link>
             </Grid>
-     </Grid>
+          </Grid>
         </form>
       </div>
     </Container>
